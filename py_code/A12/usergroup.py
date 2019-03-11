@@ -54,7 +54,7 @@ def getUserTableByUGName(UGName):
                 statement_id2 = statement_id_2(one_of_json['with_in_switch'],one_of_json['time_interval'])
                 UUID = statement_id2.return_UUID()
             elif one_of_json['statement-id'] == 3:
-                statement_id3 = statement_id_3(one_of_json['VarA'],one_of_json['if-statement'],one_of_json['VarB'],)
+                statement_id3 = statement_id_3(one_of_json['VarA'],one_of_json['if-statement'],one_of_json['VarB'])
                 UUID = statement_id3.return_UUID()
             else:
                 print("what f*** you choose! only [0,3] is allowed in statement-id")
