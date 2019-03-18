@@ -26,15 +26,8 @@ TEST DATA :
 def createUserTable(UGName,UGJson):
     mongodb_module.create_UGGroup(UGName,UGJson)
 
-
-def getUserTableByUGName(UGName):
-    target = dict()
-    dataset = mongodb_module.inspect_data_in_db('UserGroups')
-    for data in dataset:
-        if data['UGName'] == UGName:
-            target = data
-            break
-    d_list = target['UGJson']
+def getUserTableByJson(UGJson):
+    d_list = UGJson
 
     UUID1 = set([])
     UUID2 = set([])
@@ -45,16 +38,17 @@ def getUserTableByUGName(UGName):
             if 'statement-id' not in one_of_json:
                 continue
             if one_of_json['statement-id'] == 0:
-                statement_id0 = statement_id_0(one_of_json['VarA'],one_of_json['if-statement'],one_of_json['VarB'],one_of_json['with_in_switch'],one_of_json['time_interval'])
+                statement_id0 = statement_id_0(one_of_json['VarA'], one_of_json['if-statement'], one_of_json['VarB'],
+                                               one_of_json['with_in_switch'], one_of_json['time_interval'])
                 UUID = statement_id0.return_UUID()
             elif one_of_json['statement-id'] == 1:
-                statement_id1 = statement_id_1(one_of_json['with_in_switch'],one_of_json['time_interval'])
+                statement_id1 = statement_id_1(one_of_json['with_in_switch'], one_of_json['time_interval'])
                 UUID = statement_id1.return_UUID()
             elif one_of_json['statement-id'] == 2:
-                statement_id2 = statement_id_2(one_of_json['with_in_switch'],one_of_json['time_interval'])
+                statement_id2 = statement_id_2(one_of_json['with_in_switch'], one_of_json['time_interval'])
                 UUID = statement_id2.return_UUID()
             elif one_of_json['statement-id'] == 3:
-                statement_id3 = statement_id_3(one_of_json['VarA'],one_of_json['if-statement'],one_of_json['VarB'],)
+                statement_id3 = statement_id_3(one_of_json['VarA'], one_of_json['if-statement'], one_of_json['VarB'], )
                 UUID = statement_id3.return_UUID()
             else:
                 print("what f*** you choose! only [0,3] is allowed in statement-id")
@@ -64,6 +58,15 @@ def getUserTableByUGName(UGName):
             UUID2 = UUID1
         UUID2 = UUID2 & UUID1
     return list(UUID2)
+
+def getUserTableByUGName(UGName):
+    target = dict()
+    dataset = mongodb_module.inspect_data_in_db('UserGroups')
+    for data in dataset:
+        if data['UGName'] == UGName:
+            target = data
+            break
+    return getUserTableByJson(target['UGJson'])
 
 if __name__ == '__main__':
     print(getUserTableByUGName('UserGroup4'))
